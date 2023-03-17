@@ -31,8 +31,6 @@ namespace EmployeePay
                     model.Name = reader["Name"] == DBNull.Value ? default : reader["Name"].ToString();
                     model.BasicPay = Convert.ToInt64(reader["BasicPay"] == DBNull.Value ? default : reader["BasicPay"]);
                     model.StartDate = (DateTime)(reader["StartDate"] == DBNull.Value ? default(DateTime) : reader["StartDate"]);
-
-                    model.Gender = reader["Gender"] == DBNull.Value ? default : reader["Gender"].ToString();
                     model.PhoneNumber = Convert.ToInt64(reader["PhoneNumber"] == DBNull.Value ? default : reader["PhoneNumber"]);
                     model.Address = reader["Address"] == DBNull.Value ? default : reader["Address"].ToString();
                     model.Department = reader["Department"] == DBNull.Value ? default : reader["Department"].ToString();
@@ -84,6 +82,11 @@ namespace EmployeePay
                 sqlConnection.Close();
             }
         }
+
+        /// <summary>
+        /// UC4- Add new employees data
+        /// </summary>
+        /// <param name="model"></param>
         public static void AddEmployee(EmployeePayRoll model)
         {
             try
@@ -100,6 +103,35 @@ namespace EmployeePay
                 int num = command.ExecuteNonQuery();
                 if (num != 0)
                     Console.WriteLine("Employee Added Successfully");
+                else
+                    Console.WriteLine("Something went Wrong");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+        /// <summary>
+        /// UC5- Delete employee 
+        /// </summary>
+        /// <param name="model"></param>
+        public static void DeleteEmployee(EmployeePayRoll model)
+        {
+            try
+            {
+                sqlConnection = new SqlConnection(connectionString);
+                SqlCommand command = new SqlCommand("dbo.spDeleteEmployee", sqlConnection);
+                command.CommandType = CommandType.StoredProcedure;
+                sqlConnection.Open();
+                command.Parameters.AddWithValue("@Name", model.Name);
+                command.Parameters.AddWithValue("@Id", model.Id);
+                int num = command.ExecuteNonQuery();
+                if (num != 0)
+                    Console.WriteLine("Employee Delete Successfully");
                 else
                     Console.WriteLine("Something went Wrong");
             }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace EmployeePay
 {
@@ -54,6 +55,35 @@ namespace EmployeePay
                    sqlConnection.Close();
                 
                }
+    
+        }
+        public static void UpdateEmployee(EmployeePayRoll model)
+        {
+            try
+            {
+                sqlConnection = new SqlConnection(connectionString);
+                SqlCommand command = new SqlCommand("dbo.spUpdateEmployee", sqlConnection);
+                command.CommandType = CommandType.StoredProcedure;
+                sqlConnection.Open();
+                command.Parameters.AddWithValue("@Name", model.Name);
+                command.Parameters.AddWithValue("@BasicPay", model.BasicPay);
+                command.Parameters.AddWithValue("@Id", model.Id);
+                int num = command.ExecuteNonQuery();
+                if (num != 0)
+
+                    Console.WriteLine("Employee Updated Successfully");
+                else
+                    Console.WriteLine("Something went Wrong");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
         }
     }
+
  }

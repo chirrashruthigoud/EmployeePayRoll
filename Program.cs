@@ -2,9 +2,9 @@
 {
     public class Program
     {
-       public static void Main(string[] args)
+        static void Main(string[] args)
         {
-          /*  while (true)
+            while (true)
             {
                 Console.Clear();
                 Console.WriteLine("Please select given options");
@@ -27,7 +27,7 @@
                         break;
                 }
                 Console.ReadLine();
-            }*/
+            }
         }
     }
 }
